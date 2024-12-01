@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Simple RPG</title>
+        <link rel="stylesheet" href="styles/main.css">
+    </head>
+    <body>
+        <div class="game-container">
+            <div id="gameArea" class="game-area">
+                <!-- Game grid will be populated by JavaScript -->
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat">HP:
+                    <span id="hp"></span></div>
+                <div class="stat">XP:
+                    <span id="xp"></span></div>
+                <div class="stat">Gold:
+                    <span id="gold"></span></div>
+            </div>
+
+            <div class="controls">
+                <div class="control-row">
+                    <button id="upBtn" class="control-btn">↑</button>
+                </div>
+                <div class="control-row">
+                    <button id="leftBtn" class="control-btn">←</button>
+                    <button id="downBtn" class="control-btn">↓</button>
+                    <button id="rightBtn" class="control-btn">→</button>
+                </div>
+            </div>
+
+            <div id="eventOverlay" class="event-overlay hidden">
+                <!-- Event content will be populated by JavaScript -->
+            </div>
+        </div>
+        <script type="module" src="js/main.js" defer="defer"></script>
+    </body>
+</html>

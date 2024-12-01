@@ -7,11 +7,67 @@ class Game {
         this.gameState = new GameState();
         this.eventSystem = new EventSystem(this.gameState);
         this.gameArea = document.getElementById('gameArea');
-        console.log('Game area element:', this.gameArea);
+        this.card = document.querySelector('.card');
+        this.setupSplashScreen();
         this.setupControls();
         this.render();
         window.game = this;
         console.log('Game initialization complete');
+    }
+
+    setupSplashScreen() {
+        const newGameBtn = document.getElementById('newGameBtn');
+        const loadGameBtn = document.getElementById('loadGameBtn');
+        const saveGameBtn = document.getElementById('saveGameBtn');
+
+        newGameBtn.addEventListener('click', () => {
+            this.startNewGame();
+        });
+
+        loadGameBtn.addEventListener('click', () => {
+            this.loadGame();
+        });
+
+        saveGameBtn.addEventListener('click', () => {
+            this.saveGame();
+        });
+
+        // Initially hide save button until game starts
+        saveGameBtn.style.display = 'none';
+    }
+
+    startNewGame() {
+        this.card.classList.add('is-flipped');
+        document.getElementById('saveGameBtn').style.display = 'block';
+    }
+
+    saveGame() {
+        const gameData = {
+            gameState: this.gameState.getState(),
+            player: this.gameState.player,
+            grid: this.gameState.grid
+        };
+        localStorage.setItem('simpleRPG_saveGame', JSON.stringify(gameData));
+        alert('Game saved successfully!');
+    }
+
+    loadGame() {
+        const savedGame = localStorage.getItem('simpleRPG_saveGame');
+        if (savedGame) {
+            const gameData = JSON.parse(savedGame);
+            this.gameState.player = gameData.player;
+            this.gameState.grid = gameData.grid;
+            this.render();
+            this.card.classList.add('is-flipped');
+            document.getElementById('saveGameBtn').style.display = 'block';
+        } else {
+            alert('No saved game found!');
+        }
+    }
+
+    showSplashScreen() {
+        this.card.classList.remove('is-flipped');
+        document.getElementById('saveGameBtn').style.display = 'none';
     }
 
     setupControls() {
@@ -53,28 +109,39 @@ class Game {
         // Keyboard controls
         document.addEventListener('keydown', (e) => {
             console.log('Key pressed:', e.key);
-            e.preventDefault(); // Prevent default scroll behavior
-            switch(e.key) {
-                case 'ArrowUp':
-                case 'w':
-                case 'W':
-                    this.handleMove('up');
-                    break;
-                case 'ArrowDown':
-                case 's':
-                case 'S':
-                    this.handleMove('down');
-                    break;
-                case 'ArrowLeft':
-                case 'a':
-                case 'A':
-                    this.handleMove('left');
-                    break;
-                case 'ArrowRight':
-                case 'd':
-                case 'D':
-                    this.handleMove('right');
-                    break;
+
+            // Handle Escape key first
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                this.showSplashScreen();
+                return;
+            }
+
+            // Only handle movement keys if game is active (card is flipped)
+            if (this.card.classList.contains('is-flipped')) {
+                e.preventDefault(); // Prevent default scroll behavior
+                switch(e.key) {
+                    case 'ArrowUp':
+                    case 'w':
+                    case 'W':
+                        this.handleMove('up');
+                        break;
+                    case 'ArrowDown':
+                    case 's':
+                    case 'S':
+                        this.handleMove('down');
+                        break;
+                    case 'ArrowLeft':
+                    case 'a':
+                    case 'A':
+                        this.handleMove('left');
+                        break;
+                    case 'ArrowRight':
+                    case 'd':
+                    case 'D':
+                        this.handleMove('right');
+                        break;
+                }
             }
         });
 

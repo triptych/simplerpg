@@ -108,7 +108,7 @@ export class EventSystem {
             this.showEventOverlay(`
                 <h2>Game Over!</h2>
                 <p>You were defeated...</p>
-                <button onclick="location.reload()">Try Again</button>
+                <button onclick="window.game.eventSystem.startNewGameFromDeath()">Try Again</button>
             `);
             return;
         }
@@ -123,6 +123,13 @@ export class EventSystem {
             <button onclick="window.game.eventSystem.combat('run', ${monsterDamage})">🏃 Run</button>
         `;
         this.showEventOverlay(content);
+    }
+
+    startNewGameFromDeath() {
+        // Hide the game over overlay first
+        this.hideEventOverlay();
+        // Then start a new game
+        window.game.startNewGame();
     }
 
     handleShopEvent() {

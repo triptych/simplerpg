@@ -12,6 +12,7 @@ class Game {
         this.setupControls();
         this.render();
         window.game = this;
+        this.gameActive = false;
         console.log('Game initialization complete');
     }
 
@@ -37,8 +38,15 @@ class Game {
     }
 
     startNewGame() {
+        // Create a fresh GameState instance with default values
+        this.gameState = new GameState();
+        // Ensure the eventSystem is updated with the new gameState
+        this.eventSystem = new EventSystem(this.gameState);
+        this.gameActive = true;
         this.card.classList.add('is-flipped');
         document.getElementById('saveGameBtn').style.display = 'block';
+        // Render to show initial state with default gold
+        this.render();
     }
 
     saveGame() {
@@ -55,10 +63,16 @@ class Game {
         const savedGame = localStorage.getItem('simpleRPG_saveGame');
         if (savedGame) {
             const gameData = JSON.parse(savedGame);
+            // Create a new GameState instance to ensure clean state
+            this.gameState = new GameState();
+            // Then update with saved data
             this.gameState.player = gameData.player;
             this.gameState.grid = gameData.grid;
+            // Update eventSystem with the loaded gameState
+            this.eventSystem = new EventSystem(this.gameState);
             this.render();
             this.card.classList.add('is-flipped');
+            this.gameActive = true;
             document.getElementById('saveGameBtn').style.display = 'block';
         } else {
             alert('No saved game found!');
@@ -67,7 +81,10 @@ class Game {
 
     showSplashScreen() {
         this.card.classList.remove('is-flipped');
-        document.getElementById('saveGameBtn').style.display = 'none';
+        // Only hide save button if no active game
+        if (!this.gameActive) {
+            document.getElementById('saveGameBtn').style.display = 'none';
+        }
     }
 
     setupControls() {

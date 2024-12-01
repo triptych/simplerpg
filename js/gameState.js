@@ -8,7 +8,7 @@ export class GameState {
             hp: 3,
             maxHp: 3,
             xp: 0,
-            gold: 0
+            gold: 10
         };
         this.tiles = {
             TREE1: '🌲',

@@ -2,7 +2,7 @@ export class EventSystem {
     constructor(gameState) {
         this.gameState = gameState;
         this.eventOverlay = document.getElementById('eventOverlay');
-        this.currentMonsterHp = 0; // Add this as a class property
+        this.currentMonsterHp = 0;
     }
 
     handleEvent(event) {
@@ -15,6 +15,8 @@ export class EventSystem {
                 return this.handleShopEvent();
             case 'INN':
                 return this.handleInnEvent();
+            case 'TREASURE':
+                return this.handleTreasureEvent();
             default:
                 return null;
         }
@@ -31,7 +33,7 @@ export class EventSystem {
 
     hideEventOverlay() {
         this.eventOverlay.classList.add('hidden');
-        window.game.render(); // Add render call when hiding overlay
+        window.game.render();
     }
 
     handleFoodEvent() {
@@ -51,7 +53,7 @@ export class EventSystem {
     handleMonsterEvent() {
         const monsters = this.gameState.events.MONSTER.types;
         const monster = monsters[Math.floor(Math.random() * monsters.length)];
-        this.currentMonsterHp = monster.hp; // Set the monster HP as a class property
+        this.currentMonsterHp = monster.hp;
 
         const updateCombatUI = () => {
             const content = `
@@ -68,6 +70,38 @@ export class EventSystem {
         window.game.eventSystem = this;
     }
 
+    handleTreasureEvent() {
+        this.showEventOverlay(`
+            <h2>You found a treasure chest! 💎</h2>
+            <p>Do you want to open it?</p>
+            <button onclick="window.game.eventSystem.openTreasure()">Open Chest</button>
+            <button onclick="window.game.eventSystem.hideEventOverlay()">Leave it</button>
+        `);
+        window.game.eventSystem = this;
+    }
+
+    openTreasure() {
+        const treasureData = this.gameState.events.TREASURE;
+        const isTrapped = Math.random() < treasureData.trapChance;
+
+        if (isTrapped) {
+            this.gameState.updateStats({ hp: -treasureData.trapDamage });
+            this.showEventOverlay(`
+                <h2>It was trapped! 💥</h2>
+                <p>You took ${treasureData.trapDamage} damage</p>
+                <button onclick="window.game.eventSystem.hideEventOverlay()">Continue</button>
+            `);
+        } else {
+            const goldFound = Math.floor(Math.random() * (treasureData.maxGold - treasureData.minGold + 1)) + treasureData.minGold;
+            this.gameState.updateStats({ gold: goldFound });
+            this.showEventOverlay(`
+                <h2>Treasure! ✨</h2>
+                <p>You found ${goldFound} gold!</p>
+                <button onclick="window.game.eventSystem.hideEventOverlay()">Continue</button>
+            `);
+        }
+    }
+
     combat(action, monsterDamage) {
         let result = '';
 
@@ -77,7 +111,7 @@ export class EventSystem {
                 if (this.currentMonsterHp <= 0) {
                     const goldReward = Math.floor(Math.random() * 5) + 3;
                     this.gameState.updateStats({ gold: goldReward, xp: 1 });
-                    window.game.render(); // Add render call after updating stats
+                    window.game.render();
                     this.showEventOverlay(`
                         <h2>Victory!</h2>
                         <p>You earned ${goldReward} gold and 1 XP</p>
@@ -126,9 +160,7 @@ export class EventSystem {
     }
 
     startNewGameFromDeath() {
-        // Hide the game over overlay first
         this.hideEventOverlay();
-        // Then start a new game
         window.game.startNewGame();
     }
 

@@ -19,7 +19,7 @@ export class GameState {
             INN: '🏨'
         };
         this.events = {
-            NOTHING: { chance: 0.6 },
+            NOTHING: { chance: 0.55 },
             FOOD: { chance: 0.15, types: ['🍎', '🍖'] },
             MONSTER: {
                 chance: 0.15,
@@ -28,6 +28,13 @@ export class GameState {
                     { emoji: '🦊', name: 'Wild Fox', hp: 3, damage: 2 },
                     { emoji: '🐺', name: 'Wolf', hp: 4, damage: 3 }
                 ]
+            },
+            TREASURE: {
+                chance: 0.05,
+                trapChance: 0.4,
+                trapDamage: 2,
+                minGold: 3,
+                maxGold: 8
             },
             SHOP: { chance: 0.05 },
             INN: { chance: 0.05 }

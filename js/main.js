@@ -8,8 +8,10 @@ class Game {
         this.eventSystem = new EventSystem(this.gameState);
         this.gameArea = document.getElementById('gameArea');
         this.card = document.querySelector('.card');
+        this.helpDialog = document.getElementById('helpDialog');
         this.setupSplashScreen();
         this.setupControls();
+        this.setupHelpDialog();
         this.render();
         window.game = this;
         this.gameActive = false;
@@ -85,6 +87,32 @@ class Game {
         if (!this.gameActive) {
             document.getElementById('saveGameBtn').style.display = 'none';
         }
+    }
+
+    setupHelpDialog() {
+        const helpBtn = document.getElementById('helpBtn');
+        const closeHelpBtn = document.getElementById('closeHelpBtn');
+
+        helpBtn.addEventListener('click', () => {
+            this.helpDialog.showModal();
+        });
+
+        closeHelpBtn.addEventListener('click', () => {
+            this.helpDialog.close();
+        });
+
+        // Close dialog when clicking outside
+        this.helpDialog.addEventListener('click', (e) => {
+            const dialogDimensions = this.helpDialog.getBoundingClientRect();
+            if (
+                e.clientX < dialogDimensions.left ||
+                e.clientX > dialogDimensions.right ||
+                e.clientY < dialogDimensions.top ||
+                e.clientY > dialogDimensions.bottom
+            ) {
+                this.helpDialog.close();
+            }
+        });
     }
 
     setupControls() {

@@ -8,6 +8,29 @@
     </head>
     <body>
         <div class="scene">
+            <button id="helpBtn" class="help-btn" aria-label="Help">?</button>
+            <dialog id="helpDialog" class="help-dialog">
+                <div class="help-content">
+                    <h2>Simple RPG Help</h2>
+                    <h3>Controls</h3>
+                    <ul>
+                        <li>Use Arrow keys or WASD on keyboard</li>
+                        <li>Click the directional buttons on screen</li>
+                        <li>Swipe on touch devices</li>
+                    </ul>
+                    <h3>Gameplay</h3>
+                    <ul>
+                        <li>Navigate the grid to collect gold</li>
+                        <li>Gain experience points</li>
+                        <li>Manage your health points</li>
+                        <li>Watch for random events as you move</li>
+                    </ul>
+                    <p>View project on
+                        <a href="https://github.com/triptych/simplerpg" target="_blank">GitHub</a>
+                    </p>
+                    <button id="closeHelpBtn">Close</button>
+                </div>
+            </dialog>
             <div class="card">
                 <div class="card-face card-front">
                     <div class="splash-screen">

@@ -203,6 +203,22 @@ body {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s, outline 0.2s;
+}
+
+.event-content button:hover {
+    background-color: #3d8c40;
+    transform: translateY(-2px);
+}
+
+.event-content button:focus {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
+    transform: translateY(-2px);
+}
+
+.event-content button:active {
+    transform: translateY(0);
 }
 
 .cell {

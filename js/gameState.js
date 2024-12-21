@@ -14,7 +14,7 @@ export class GameState {
             TREE1: '🌲',
             TREE2: '🌳',
             PLAYER: '😊',
-            EMPTY: '⬜️',
+            EMPTY: '🌱',
             SHOP: '🏪',
             INN: '🏨'
         };

@@ -29,6 +29,39 @@ export class EventSystem {
             </div>
         `;
         this.eventOverlay.classList.remove('hidden');
+
+        // Get all buttons in the overlay
+        const buttons = this.eventOverlay.querySelectorAll('button');
+        if (buttons.length > 0) {
+            // Focus first button
+            buttons[0].focus();
+
+            // Track current focused button index
+            let currentFocusIndex = 0;
+
+            // Add keyboard navigation
+            this.eventOverlay.addEventListener('keydown', (e) => {
+                switch(e.key) {
+                    case 'ArrowRight':
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        currentFocusIndex = (currentFocusIndex + 1) % buttons.length;
+                        buttons[currentFocusIndex].focus();
+                        break;
+                    case 'ArrowLeft':
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        currentFocusIndex = (currentFocusIndex - 1 + buttons.length) % buttons.length;
+                        buttons[currentFocusIndex].focus();
+                        break;
+                    case 'Enter':
+                    case ' ':
+                        e.preventDefault();
+                        buttons[currentFocusIndex].click();
+                        break;
+                }
+            });
+        }
     }
 
     hideEventOverlay() {

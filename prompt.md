@@ -1,7 +1,7 @@
 # 🎮 Simple Mobile RPG Game Specification
 
 ## Overview
-A whimsical, mobile-friendly RPG game with emoji-based graphics and turn-based gameplay. The game features a simple, delightful interface with a portrait orientation optimized for mobile devices.
+A whimsical mobile-friendly RPG game with emoji-based graphics and turn-based gameplay. The game features a simple delightful interface with a portrait orientation optimized for mobile devices.
 
 ## 🎨 Visual Design
 
@@ -43,7 +43,7 @@ A whimsical, mobile-friendly RPG game with emoji-based graphics and turn-based g
 
 ### Movement
 - Turn-based grid movement
-- Four directions (↑, ↓, ←, →)
+- Four directions (↑ ↓ ← →)
 - Each step counts as one turn
 
 ### Environment
@@ -157,4 +157,4 @@ LEVEL_UP
 - Playful animations
 - High contrast for readability
 
-Remember: Keep the implementation simple while maintaining charm and playability. Focus on core mechanics first, then add polish through animations and feedback.
+Remember: Keep the implementation simple while maintaining charm and playability. Focus on core mechanics first then add polish through animations and feedback.

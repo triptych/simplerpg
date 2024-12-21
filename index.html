@@ -21,10 +21,23 @@
                     <h3>Gameplay</h3>
                     <ul>
                         <li>Navigate the grid to collect gold</li>
-                        <li>Gain experience points</li>
+                        <li>Gain experience points from:
+                            <ul>
+                                <li>Moving (1 XP)</li>
+                                <li>Finding food (1 XP)</li>
+                                <li>Finding treasure (2-3 XP)</li>
+                                <li>Defeating monsters (3-5 XP)</li>
+                            </ul>
+                        </li>
                         <li>Manage your health points</li>
                         <li>Watch for random events as you move</li>
                     </ul>
+                    <div class="stats">
+                        <h3>Current Progress</h3>
+                        <p>XP:
+                            <span id="helpXp">0</span></p>
+                        <button id="shareBtn" onclick="window.game.shareProgress()">Share Progress</button>
+                    </div>
                     <p>View project on
                         <a href="https://github.com/triptych/simplerpg" target="_blank">GitHub</a>
                     </p>

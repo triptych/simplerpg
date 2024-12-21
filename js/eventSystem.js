@@ -73,14 +73,15 @@ export class EventSystem {
         const food = this.gameState.events.FOOD.types[Math.floor(Math.random() * 2)];
         const healAmount = food === '🍎' ? 2 : 5;
 
+        const xpReward = 1; // 1 XP for finding food
         this.showEventOverlay(`
             <h2>You found some food!</h2>
             <p>${food}</p>
-            <p>Restored ${healAmount} HP</p>
+            <p>Restored ${healAmount} HP and gained ${xpReward} XP</p>
             <button onclick="window.game.eventSystem.hideEventOverlay()">Continue</button>
         `);
 
-        this.gameState.updateStats({ hp: healAmount });
+        this.gameState.updateStats({ hp: healAmount, xp: xpReward });
     }
 
     handleMonsterEvent() {
@@ -126,10 +127,11 @@ export class EventSystem {
             `);
         } else {
             const goldFound = Math.floor(Math.random() * (treasureData.maxGold - treasureData.minGold + 1)) + treasureData.minGold;
-            this.gameState.updateStats({ gold: goldFound });
+            const xpReward = Math.floor(Math.random() * 2) + 2; // 2-3 XP for finding treasure
+            this.gameState.updateStats({ gold: goldFound, xp: xpReward });
             this.showEventOverlay(`
                 <h2>Treasure! ✨</h2>
-                <p>You found ${goldFound} gold!</p>
+                <p>You found ${goldFound} gold and ${xpReward} XP!</p>
                 <button onclick="window.game.eventSystem.hideEventOverlay()">Continue</button>
             `);
         }
@@ -143,7 +145,8 @@ export class EventSystem {
                 this.currentMonsterHp--;
                 if (this.currentMonsterHp <= 0) {
                     const goldReward = Math.floor(Math.random() * 5) + 3;
-                    this.gameState.updateStats({ gold: goldReward, xp: 1 });
+                    const xpReward = Math.floor(Math.random() * 3) + 3; // 3-5 XP for defeating monsters
+                    this.gameState.updateStats({ gold: goldReward, xp: xpReward });
                     window.game.render();
                     this.showEventOverlay(`
                         <h2>Victory!</h2>

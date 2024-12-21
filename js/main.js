@@ -252,6 +252,12 @@ class Game {
         console.log('Rendering game state...');
         const state = this.gameState.getState();
 
+        // Update help dialog XP
+        const helpXp = document.getElementById('helpXp');
+        if (helpXp) {
+            helpXp.textContent = state.player.xp;
+        }
+
         // Clear game area
         while (this.gameArea.firstChild) {
             this.gameArea.removeChild(this.gameArea.firstChild);
@@ -276,9 +282,29 @@ class Game {
 
         // Update stats
         document.getElementById('hp').textContent = '❤️'.repeat(state.player.hp);
-        document.getElementById('xp').textContent = '⭐️'.repeat(state.player.xp);
+        document.getElementById('xp').textContent = state.player.xp;
         document.getElementById('gold').textContent = `💰 ${state.player.gold}`;
         console.log('Render complete');
+    }
+
+    async shareProgress() {
+        const state = this.gameState.getState();
+        const shareData = {
+            title: 'Simple RPG Progress',
+            text: `I've earned ${state.player.xp} XP and collected ${state.player.gold} gold in Simple RPG! 🎮`,
+            url: window.location.href
+        };
+
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else {
+                alert('Web Share API not supported in your browser. Here\'s your progress:\n\n' + shareData.text);
+            }
+        } catch (err) {
+            console.error('Error sharing:', err);
+            alert('Failed to share. Here\'s your progress:\n\n' + shareData.text);
+        }
     }
 }
 

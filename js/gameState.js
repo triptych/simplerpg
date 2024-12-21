@@ -79,9 +79,10 @@ export class GameState {
             this.grid[newPosition.y][newPosition.x] === this.tiles.SHOP ||
             this.grid[newPosition.y][newPosition.x] === this.tiles.INN) {
 
-            // Update player position
+            // Update player position and grant movement XP
             this.player.x = newPosition.x;
             this.player.y = newPosition.y;
+            this.updateStats({ xp: 1 }); // Small XP gain for movement
             return true;
         }
 

@@ -3,13 +3,16 @@ export class GameState {
         this.gridSize = 5;
         this.grid = [];
         this.player = {
-            x: Math.floor(this.gridSize / 2),
-            y: Math.floor(this.gridSize / 2),
+            x: 0,
+            y: 0,
             hp: 3,
             maxHp: 3,
             xp: 0,
             gold: 10
         };
+        // Set initial player position to center
+        this.player.x = Math.floor(this.gridSize / 2);
+        this.player.y = Math.floor(this.gridSize / 2);
         this.tiles = {
             TREE1: '🌲',
             TREE2: '🌳',
@@ -46,11 +49,15 @@ export class GameState {
         // Initialize empty grid
         this.grid = Array(this.gridSize).fill().map(() => Array(this.gridSize).fill(this.tiles.EMPTY));
 
+        // Get current player position or use center if not set
+        const playerX = this.player.x;
+        const playerY = this.player.y;
+
         // Place trees randomly, but ensure there's always a path
         for (let y = 0; y < this.gridSize; y++) {
             for (let x = 0; x < this.gridSize; x++) {
                 // Skip the player's position and adjacent tiles
-                if (Math.abs(x - this.player.x) <= 1 && Math.abs(y - this.player.y) <= 1) {
+                if (Math.abs(x - playerX) <= 1 && Math.abs(y - playerY) <= 1) {
                     continue;
                 }
                 // 50% chance to place a tree
@@ -61,7 +68,7 @@ export class GameState {
         }
 
         // Ensure player position is empty
-        this.grid[this.player.y][this.player.x] = this.tiles.EMPTY;
+        this.grid[playerY][playerX] = this.tiles.EMPTY;
     }
 
     movePlayer(direction) {
